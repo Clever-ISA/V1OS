@@ -22,7 +22,7 @@ init_term:
     mov r2, 0x7f00000f  ; get VGA buffer address
     in double
     add r0, 0x18000        ; offset to text mode area
-    mov [vga_text_buf], r0
+    mov double [vga_text_buf], r0
 
     ret
 
