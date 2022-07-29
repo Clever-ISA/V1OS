@@ -1,7 +1,9 @@
+HELLO:  .asciz "Hello, world!"
+
 _start:
     call init_term
-    mov r2, 0x41        ; 'A'
-    call putc
+    mov r2, HELLO
+    call puts
 
     ;; TODO: Initialize filesystem, initialize keyboard, spin up a shell
 
