@@ -5,6 +5,9 @@ _start:
 
     ;; TODO: Initialize filesystem, initialize keyboard, spin up a shell
 
+    ;; Fallthrough
+spinlock:
+    hlt
     jmp spinlock
 
 vga_text_buf:   .long 0
@@ -30,6 +33,9 @@ init_term:
     ret
 
 putc:
+    cmp r2, 0x0a
+    jeq putc$L1
+
     mov r0, byte [term_y]
     mov r3, 80
     mul
@@ -43,15 +49,30 @@ putc:
     add r1, 1
     mov byte [term_x], r1
     cmp r1, 80
-    jlt putc$L1
+    jlt putc$L2
+
+putc$L1:
     mov byte [term_x], 0
     mov r0, byte [term_y]
     add r0, 1
     mov byte [term_y], r0
 
-putc$L1:
+putc$L2:
     ret
 
-spinlock:
-    hlt
-    jmp spinlock
+puts:
+    push r6
+    mov r6, r2
+
+puts$L1:
+    mov r2, byte [r6]
+    cmp r2, 0
+    jeq puts$L2
+    call putc
+    add r6, 1
+    jmp puts$L1
+
+puts$L2:
+    mov r2, 0x0a
+    pop r6
+    jmp putc
