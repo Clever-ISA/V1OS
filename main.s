@@ -24,26 +24,30 @@ init_term:
     add r0, 0x18000        ; offset to text mode area
     mov double [vga_text_buf], r0
 
+    mov byte [term_x], 0
+    mov byte [term_y], 0
+
     ret
 
 putc:
-    mov r0, [term_y]
+    mov r0, byte [term_y]
     mov r3, 80
     mul
-    mov r1, [term_x]
+    mov r1, byte [term_x]
     add r0, r1
     lsh r0, 1
-    mov [r0], r2
+    mov byte [r0], r2
     add r0, 1
-    mov [r0], 0x0f
+    mov byte [r0], 0x0f
 
     add r1, 1
+    mov byte [term_x], r1
     cmp r1, 80
     jlt putc$L1
-    mov [term_x], 0
-    mov r0, [term_y]
+    mov byte [term_x], 0
+    mov r0, byte [term_y]
     add r0, 1
-    mov [term_y], r0
+    mov byte [term_y], r0
 
 putc$L1:
     ret
