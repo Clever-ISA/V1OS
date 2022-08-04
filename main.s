@@ -4,7 +4,6 @@ HELLO:  .asciz "Hello, world!"
 
 _start:
     call init_term
-    call init_scsi
 
     mov r2, HELLO
     call puts
