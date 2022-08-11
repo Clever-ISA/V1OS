@@ -8,9 +8,9 @@ _start:
     mov r2, HELLO
     call puts
 
-    ;; TODO: Initialize filesystem, initialize keyboard, spin up a shell
+    // TODO: Initialize filesystem, initialize keyboard, spin up a shell
 
-    ;; Fallthrough
+    // Fallthrough
 spinlock:
     hlt
     jmp spinlock

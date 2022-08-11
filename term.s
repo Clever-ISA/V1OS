@@ -7,14 +7,14 @@ term_y:         .byte 0
 init_term:
     mov r2, 0x7f000000
     in double
-    test r0, 0x00000001     ; I/O Subsystem enabled
+    test r0, 0x00000001     // I/O Subsystem enabled
     jz spinlock
-    test r0, 0x00000040     ; VGA flag
+    test r0, 0x00000040     // VGA flag
     jz spinlock
 
-    mov r2, 0x7f00000f      ; get VGA buffer address
+    mov r2, 0x7f00000f      // get VGA buffer address
     in double
-    add r0, 0x18000         ; offset to text mode area
+    add r0, 0x18000         // offset to text mode area
     mov double [vga_text_buf], r0
 
     mov byte [term_x], 0
